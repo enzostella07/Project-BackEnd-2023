@@ -1,7 +1,5 @@
 import express from "express";
-
 export const testChatRouter = express.Router();
+import testChatController from "../controller/test-chat.controller.js"
 
-testChatRouter.get("/", (req, res) => {
-  return res.status(200).render("test-chat", {});
-});
+testChatRouter.get("/", testChatController.testChat);

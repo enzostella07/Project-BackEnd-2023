@@ -5,6 +5,7 @@ import { createHash, isValidPassword } from "../utils/bcrypt.js";
 import { UserModel } from "../DAO/models/users.model.js";
 import { userService } from "../services/users.service.js";
 import GitHubStrategy from "passport-github2";
+import env from "../config/config.js";
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -12,8 +13,8 @@ export function iniPassport() {
     "github",
     new GitHubStrategy(
       {
-        clientID: "Iv1.22e1ae44b573ff1d",
-        clientSecret: "24929a716841e56bf910056794aa6c6caad91b62",
+        clientID: env.CLIENT_ID,
+        clientSecret: env.CLIENT_SECRET,
         callbackURL: "http://localhost:8080/api/sessions/githubcallback",
       },
       async (accesToken, _, profile, done) => {

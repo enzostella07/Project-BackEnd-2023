@@ -34,7 +34,7 @@
         {{#each plainProducts}}
           <div class="card" style="width: 15rem; border: 1px solid black">
             <img
-              src="/{{this.thumbnail}}"
+              src="{{this.thumbnail}}"
               class="card-img"
               alt="{{this.title}}"
             />
@@ -52,14 +52,14 @@
                 <p class="m-0">$ {{this.price}}.-</p>
               </div>
               <div class="card-id">
-                <p class="m-0">{{this._id}}.-</p>
+                <p class="m-0" style="color: black">{{this._id}}.-</p>
               </div>
               <div
                 class="card-btn d-flex justify-content-end align-items-end w-100"
               >
                 <button 
                 onclick="putIntoCart('{{this._id}}')"
-                class="btn btn-dark btn-sm me-2">Agregar al Carrito</button>
+                class="btn btn-dark btn-sm me-5">Agregar al Carrito</button>
               </div>
             </div>
           </div>

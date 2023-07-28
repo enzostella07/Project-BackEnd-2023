@@ -3,7 +3,8 @@ import express from "express";
 import handlebars from "express-handlebars";
 import session from "express-session";
 import passport from "passport";
-import { __dirname } from "./config.js";
+import env from "./config/config.js";
+import { __dirname } from "./multer.js";
 import { cartsApiRouter } from "./routes/carts-api.router.js";
 import { cartsRouter } from "./routes/carts.router.js";
 import { home } from "./routes/home.router.js";
@@ -14,30 +15,30 @@ import { sessionRouter } from "./routes/session.router.js";
 import { testChatRouter } from "./routes/test-chat.router.js";
 import { usersApiRouter } from "./routes/users-api.router.js";
 import { usersRouter } from "./routes/users.router.js";
-import { checkAdmin } from "./utils/checkLogin.js";
 import { connectMongo } from "./utils/connect-db.js";
 import { connectSocketServer } from "./utils/connect-socket.js";
 import { iniPassport } from "./utils/passport.js";
 
-// CONFIG BASICAS Y CONEXION A BD
+// CONFIG BASICAS
 const app = express();
-const PORT = 8080;
-
-connectMongo();
+const PORT = env.PORT || 8080;
 
 // HTTP SERVER
 const httpServer = app.listen(PORT, () => {
   console.log(`Levantando en puerto http://localhost:${PORT}`);
 });
 
+//CONEXION A DB
+connectMongo();
+
 connectSocketServer(httpServer);
 app.use(
   session({
-    secret: "jhasdkjh671246JHDAhjd",
+    secret: env.MONGO_SECRET,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: "mongodb+srv://enzostella07:5CWZTaHh5MDAbiIz@codercluster.ykyflk8.mongodb.net/ecommerce?retryWrites=true&w=majority",
+      mongoUrl: env.MONGO_URL,
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
       ttl: 3600,
     }),
@@ -65,7 +66,6 @@ app.use("/api/carts", cartsApiRouter);
 app.use("/api/users", usersApiRouter);
 app.use("/api/sessions", sessionRouter);
 
-
 // PLANTILLAS
 app.use("/", home);
 app.use("/products", productsRouter);
@@ -74,16 +74,7 @@ app.use("/users", usersRouter);
 app.use("/cart", cartsRouter);
 app.use("/test-chat", testChatRouter);
 
-app.get(
-  "/lugar-super-misterioso-y-secreto-donde-se-guardan-cosas-muy-importantes",
-  checkAdmin,
-  (req, res) => {
-    return res.send("CBU-LAURA-CUIL");
-  }
-);
-
 app.get("*", (req, res) => {
-  // console.log(req.signedCookies);
   return res.status(404).json({
     status: "Error",
     msg: "No se ecuentra la ruta especificada",

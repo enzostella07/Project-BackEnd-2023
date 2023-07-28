@@ -1,8 +1,10 @@
 import { connect } from "mongoose";
+import env from "../config/config.js";
 
 export async function connectMongo() {
+  const url = env.MONGO_URL;
   try {
-    await connect("mongodb+srv://enzostella07:5CWZTaHh5MDAbiIz@codercluster.ykyflk8.mongodb.net/ecommerce?retryWrites=true&w=majority");
+    await connect(url);
     console.log("Conectado a la base de datos");
   } catch (e) {
     console.log(e);

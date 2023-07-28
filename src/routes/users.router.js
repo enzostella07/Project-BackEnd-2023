@@ -1,24 +1,6 @@
 import express from "express";
 import { userService } from "../services/users.service.js";
+import userController from "../controller/users.controller.js"
 export const usersRouter = express.Router();
-import { checkLogin } from "../utils/checkLogin.js";
 
-usersRouter.get("/",  async (req, res) => {
-  try {
-    const data = await userService.getAll({});
-    const dataParse = data.map((user) => {
-      return {
-        id: user._id,
-        email: user.email,
-        firstname: user.first_name,
-        password: user.password,
-        rol: user.rol,
-      };
-    });
-    const title = "Fuego Burgers® - Users";
-    return res.status(200).render("users", { dataParse, title });
-  } catch (err) {
-    console.log(err);
-    return res.status(501).render("error", { error: "Error en el servidor" });
-  }
-});
+usersRouter.get("/",  userController.getAll);
