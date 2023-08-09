@@ -1,25 +1,33 @@
 import mongoose from "mongoose";
-import { productsDAO } from "../DAO/daos/products/products.mongo.dao.js";
-import { cartsDAO } from "../DAO/daos/carts/carts.mongo.dao.js";
+import { CartsSchema } from "../../schemas/carts.schema.js";
+import { ProductsSchema } from "../../schemas/products.schema.js";
 
-class CartService {
-  async getCartsAll() {
-    const carts = await cartsDAO.find({});
-    return carts;
-  }
-
-  async getCartsById(cartId) {
-    const cart = await cartsDAO.findById(cartId).populate("products.product");
-    if (!cart) {
-      throw new Error("Cart not found");
+class CartsDAO {
+  async getAll() {
+    try {
+      const carts = await CartsSchema.find({});
+      return carts;
+    } catch (error) {
+      console.log(error);
     }
-    return cart;
   }
 
-  async addCarts(cartId, prodId) {
+  async getById(cartId) {
+    try {
+      const cart = await CartsSchema.findById(cartId).populate("products.product");
+      if (!cart) {
+        throw new Error("Cart not found");
+      }
+      return cart;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async addCart(cartId, prodId) {
     try {
       if (cartId === undefined || prodId === undefined) {
-        const newCart = await cartsDAO.create({});
+        const newCart = await CartsSchema.create({});
         return { status: 200, result: { status: "success", payload: newCart } };
       } else {
         if (
@@ -37,7 +45,7 @@ class CartService {
       }
 
       const productFiltered = await ProductsSchema.findOne({ _id: prodId });
-      const cartFiltered = await cartsDAO.findOne({ _id: cartId });
+      const cartFiltered = await CartsSchema.findOne({ _id: cartId });
 
       if (!productFiltered || !cartFiltered) {
         return {
@@ -70,10 +78,10 @@ class CartService {
     }
   }
 
-  async addProducts(cartId, productId) {
+  async addProduct(cartId, productId) {
     try {
-      const cart = await cartsDAO.findById(cartId);
-      const product = await productsDAO.findById(productId);
+      const cart = await CartsSchema.findById(cartId);
+      const product = await ProductsSchema.findById(productId);
       if (!cart) {
         throw new Error("Cart not found");
       }
@@ -88,9 +96,9 @@ class CartService {
     }
   }
 
-  async removeProducts(cartId, productId) {
+  async removeProduct(cartId, productId) {
     try {
-      const cart = await cartsDAO.findById(cartId);
+      const cart = await CartsSchema.findById(cartId);
       const productIndex = cart.products.findIndex(
         (p) => p.product.toString() === productId
       );
@@ -105,9 +113,9 @@ class CartService {
     }
   }
 
-  async updateProductsQuantity(cartId, productId, quantity) {
+  async updateProductsQ(cartId, productId, quantity) {
     try {
-      const cart = await cartsDAO.findById(cartId);
+      const cart = await CartsSchema.findById(cartId);
       const productIndex = cart.products.findIndex(
         (p) => p.product.toString() === productId
       );
@@ -122,9 +130,9 @@ class CartService {
     }
   }
 
-  async clearCarts(cartId) {
+  async clearCart(cartId) {
     try {
-      const cart = await cartsDAO.findById(cartId);
+      const cart = await CartsSchema.findById(cartId);
       cart.products = [];
       await cart.save();
     } catch (error) {
@@ -132,9 +140,9 @@ class CartService {
     }
   }
 
-  async updateCarts(cartId, products) {
+  async updateCart(cartId, products) {
     try {
-      const cart = await cartsDAO.findByIdAndUpdate(
+      const cart = await CartsSchema.findByIdAndUpdate(
         cartId,
         { products },
         { new: true }
@@ -145,10 +153,10 @@ class CartService {
     }
   }
 
-  async createOne(products) {
-    const cartCreated = await cartsDAO.create(products);
+  async create(products) {
+    const cartCreated = await CartsSchema.create(products);
     return cartCreated;
   }
 }
 
-export const cartService = new CartService();
+export const cartsDAO = new CartsDAO();

@@ -2,7 +2,7 @@ import passport from "passport";
 import local from "passport-local";
 import { cartService } from "../services/carts.service.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
-import { UserModel } from "../DAO/models/users.model.js";
+import { UserModel } from "../DAO/schemas/users.schema.js";
 import { userService } from "../services/users.service.js";
 import GitHubStrategy from "passport-github2";
 import env from "../config/config.js";

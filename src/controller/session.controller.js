@@ -1,3 +1,5 @@
+import { userDTO } from '../DAO/DTO/user.dto.js';
+
 class sessionController {
   callBack = (req, res) => {
     req.session.email = req.user.email;
@@ -12,13 +14,13 @@ class sessionController {
 
   loginGet = async (req, res) => {
     try {
-      const title = "Aloha";
-      return res.status(200).render("login", { title });
+      const title = 'Aloha';
+      return res.status(200).render('login', { title });
     } catch (err) {
       console.log(err);
-      return res.status(500).render("error", { error: "Error en el servidor" });
+      return res.status(500).render('error', { error: 'Error en el servidor' });
     }
-  }
+  };
 
   loginPost = async (req, res) => {
     req.session.user = {
@@ -30,22 +32,22 @@ class sessionController {
       cart: req.user.cart,
     };
     console.log(req.session.user);
-    return res.redirect("/products");
-  }
+    return res.redirect('/products');
+  };
 
   registerGet = async (req, res) => {
     try {
-      const title = "Buzos Enzos bordo - Register";
-      return res.status(200).render("register", { title });
+      const title = 'Buzos Enzos bordo - Register';
+      return res.status(200).render('register', { title });
     } catch (err) {
       console.log(err);
-      return res.status(501).render("error", { error: "Error en el servidor" });
+      return res.status(501).render('error', { error: 'Error en el servidor' });
     }
-  }
+  };
 
-  register =  (req, res) => {
+  register = (req, res) => {
     if (!req.user) {
-      return res.status(500).render("error", { error: "Error auth" });
+      return res.status(500).render('error', { error: 'Error auth' });
     }
     req.session.user = {
       _id: req.user._id,
@@ -55,8 +57,8 @@ class sessionController {
       rol: req.user.rol,
       cart: req.user.cart,
     };
-    return res.redirect("/products");
-  }
+    return res.redirect('/products');
+  };
 
   logout = (req, res) => {
     req.session.destroy((err) => {
@@ -65,12 +67,11 @@ class sessionController {
       }
       res.redirect('/');
     });
-  }
+  };
 
   current = (req, res) => {
-    console.log('req' + req.session);
-    return res.status(200).json({ user: req.session.user });
-  }
-
+    const resultDTO = new userDTO(req.session.user);
+    return res.status(200).json({ user: resultDTO });
+  };
 }
 export default new sessionController();

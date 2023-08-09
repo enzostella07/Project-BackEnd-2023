@@ -71,7 +71,7 @@ app.use("/", home);
 app.use("/products", productsRouter);
 app.use("/products-admin", productsAdminRouter);
 app.use("/users", usersRouter);
-app.use("/cart", cartsRouter);
+app.use("/carts", cartsRouter);
 app.use("/test-chat", testChatRouter);
 
 app.get("*", (req, res) => {

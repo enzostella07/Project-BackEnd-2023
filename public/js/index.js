@@ -296,6 +296,3 @@ socket.on("products", (producto) => {
     })
     .join("");
 });
-
-
-

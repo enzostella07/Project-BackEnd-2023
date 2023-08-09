@@ -96,17 +96,30 @@ class cartApiController{
   updateCart = async (req, res) => {
     try {
       const { cid } = req.params;
+      console.log(req.params);
       const { products } = req.body;
-      const cart = await cartService.updateCarts(cid, products);
+      // const cart = await cartService.updateCarts(cid, products);
       res
         .status(200)
-        .json({ status: "success", message: "Cart updated successfully", cart });
+        .json({ status: "success", message: "Cart updated successfully", cid  });
     } catch (error) {
       console.error(error);
       res.status(500).json({ status: "error", message: "Internal server error" });
     }
   };
 
+  purchaseCart = async (req, res) => {
+    try {
+      const { cid } = req.params;
+      const cart = await cartService.purchaseCarts(cid);
+      res
+        .status(200)
+        .json({ status: "success", message: "Cart purchased successfully", cart });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ status: "error", message: "Internal server error" });
+    }
+  };
 }
   
 export default new cartApiController();

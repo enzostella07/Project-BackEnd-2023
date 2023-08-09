@@ -21,4 +21,4 @@ const schema = new Schema({
   },
 });
 
-export const CartsModel = model("carts", schema);
+export const CartsSchema = model("carts", schema);

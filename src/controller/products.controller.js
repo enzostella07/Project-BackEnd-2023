@@ -18,9 +18,9 @@ class productsController{
       const lastname = req.session.user.lastname;
       const rol = req.session.user.rol;
       const cart = req.session.user.cart;
-      const title = "Listado de Productos";
+      // const title = "Listado de Productos";
       return res.status(200).render("products", {
-        title,
+        // title,
         firstname,
         lastname,
         rol,

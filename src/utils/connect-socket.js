@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
-import { MsgModel } from "../DAO/models/msgs.model.js";
-import { ProductsModel } from "../DAO/models/products.model.js";
+import { MsgModel } from "../DAO/schemas/msgs.schema.js";
+import { ProductsSchema } from "../DAO/schemas/products.schema.js";
 
 export function connectSocketServer(httpServer) {
   const socketServer = new Server(httpServer);
@@ -9,7 +9,7 @@ export function connectSocketServer(httpServer) {
     console.log(`Nuevo usuario conectado a traves de ${socket.id}`);
 
     try {
-      const allProducts = await ProductsModel.find({});
+      const allProducts = await ProductsSchema.find({});
       socket.emit("products", allProducts);
     } catch (e) {
       console.log(e);
@@ -17,8 +17,8 @@ export function connectSocketServer(httpServer) {
 
     socket.on("new-product", async (newProd) => {
       try {
-        await ProductsModel.create(newProd);
-        const prods = await ProductsModel.find({});
+        await ProductsSchema.create(newProd);
+        const prods = await ProductsSchema.find({});
         socketServer.emit("products", prods);
       } catch (e) {
         console.log(e);
@@ -29,8 +29,8 @@ export function connectSocketServer(httpServer) {
       try {
         console.log("id"+id);
         console.log("new"+newProd);
-        await ProductsModel.findOneAndUpdate({ _id: id }, newProd);
-        const prod = await ProductsModel.find({});
+        await ProductsSchema.findOneAndUpdate({ _id: id }, newProd);
+        const prod = await ProductsSchema.find({});
         socketServer.emit("products", prod);
       } catch (e) {
         console.log(e);
@@ -39,8 +39,8 @@ export function connectSocketServer(httpServer) {
 
     socket.on("delete-product", async (idProd) => {
       try {
-        await ProductsModel.deleteOne({ _id: idProd });
-        const prods = await ProductsModel.find({});
+        await ProductsSchema.deleteOne({ _id: idProd });
+        const prods = await ProductsSchema.find({});
         socketServer.emit("products", prods);
       } catch (e) {
         console.log(e);

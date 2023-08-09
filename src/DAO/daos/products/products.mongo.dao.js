@@ -1,11 +1,11 @@
-import { productsDAO } from "../DAO/daos/products/products.mongo.dao.js";
+import { ProductsSchema } from "../../schemas/products.schema.js";
 
-class ProductService {
-  async getAll() {
+class ProductsDAO {
+  async get() {
     const products = await ProductsSchema.find({});
     return products;
   }
-  async getAllCount() {
+  async getAll() {
     try {
       const count = await ProductsSchema.countDocuments();
       return count;
@@ -13,7 +13,7 @@ class ProductService {
       throw new Error("Error al obtener el número total de productos");
     }
   }
-  async getAllWithPagination(limit, pagina, category, orderBy) {
+  async getAllWithPag(limit, pagina, category, orderBy) {
     const query = {};
     if (category) {
       query.category = category;
@@ -35,12 +35,12 @@ class ProductService {
     return queryResult;
   }
 
-  async getProductById(_id) {
+  async getById(_id) {
     const productById = await ProdModel.findOne({ _id: _id });
     return productById;
   }
 
-  async getAllRendering() {
+  async getRendering() {
     const products = await ProductsSchema.find(
       {},
       {
@@ -56,7 +56,7 @@ class ProductService {
     return products;
   }
 
-  async createOne({ title, description, price, thumbnail, code, stock }) {
+  async create({ title, description, price, thumbnail, code, stock }) {
     const ProductCreated = await ProductsSchema.create({
       title,
       description,
@@ -68,7 +68,7 @@ class ProductService {
     return ProductCreated;
   }
 
-  async updateOne({ _id, title, description, price, thumbnail, code, stock }) {
+  async update({ _id, title, description, price, thumbnail, code, stock }) {
     const productUpdated = await ProductsSchema.updateOne(
       { _id: _id },
       { title, description, price, thumbnail, code, stock }
@@ -76,10 +76,10 @@ class ProductService {
     return productUpdated;
   }
 
-  async deleteOne(id) {
+  async delete(id) {
     const result = await ProductsSchema.deleteOne({ _id: id });
     return result;
   }
 }
 
-export const productService = new ProductService();
+export const productsDAO = new ProductsDAO();

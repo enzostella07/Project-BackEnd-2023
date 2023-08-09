@@ -19,3 +19,6 @@ const putIntoCart = (id) => {
     })
     .catch((err) => console.log(err));
 };
+
+
+

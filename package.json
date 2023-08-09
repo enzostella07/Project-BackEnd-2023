@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "nodemon src/app.js --mode DEVELOPMENT",
-    "start": "node src/app.js --mode PRODUCTION"
+    "start": "nodemon src/app.js --mode PRODUCTION"
   },
   "keywords": [],
   "author": "",
