@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const ticketSchema = new Schema({
+const schema = new Schema({
 	code: { type: String, unique: true },
 	purchase_datetime: { type: Date, required: true, default: Date.now },
 	purchaser: { type: String, required: true },
@@ -14,4 +14,4 @@ const ticketSchema = new Schema({
 	],
 });
 
-export const TicketsMongoose = model("tickets", ticketSchema);
+export const TicketsSchema = model("tickets", schema);

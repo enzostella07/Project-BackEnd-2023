@@ -1,8 +1,9 @@
-import { UserModel } from "../DAO/schemas/users.schema.js";
 import { createHash } from "../utils/bcrypt.js";
+import { userDAO } from "../DAO/daos/users/users.mongo.dao.js";
+
 class UserService {
   async findUser(email, password) {
-    const user = await UserModel.findOne(
+    const user = await userDAO.find(
       { email: email, password: password },
       {
         _id: true,
@@ -16,7 +17,7 @@ class UserService {
   }
 
   async findUserByEmail(email) {
-    const user = await UserModel.findOne(
+    const user = await userDAO.findByEmail(
       { email: email },
       {
         _id: true,
@@ -30,7 +31,7 @@ class UserService {
   }
 
   async getAll() {
-    const users = await UserModel.find(
+    const users = await userDAO.get(
       {},
       {
         _id: true,
@@ -42,20 +43,19 @@ class UserService {
     );
     return users;
   }
-  async create(user) {
+
+  async createOne(user) {
     user.password = createHash(user.password);
     const existingUser = await this.findUserByEmail(user.email);
-
     if (existingUser) {
       return false;
     }
-
-    const userCreated = await UserModel.create(user);
-
+    const userCreated = await userDAO.create(user);
     return userCreated;
   }
+
   async updateOne({ _id, email, first_name, password, rol }) {
-    const userUptaded = await UserModel.updateOne(
+    const userUptaded = await userDAO.update(
       {
         _id: _id,
       },
@@ -70,7 +70,7 @@ class UserService {
   }
 
   async deleteOne(_id) {
-    const result = await UserModel.deleteOne({ _id: _id });
+    const result = await userDAO.delete( _id );
     return result;
   }
 }

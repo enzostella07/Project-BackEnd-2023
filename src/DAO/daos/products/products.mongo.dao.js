@@ -1,78 +1,52 @@
-import { ProductsSchema } from "../../schemas/products.schema.js";
+import { ProductsSchema } from '../../schemas/products.schema.js';
 
 class ProductsDAO {
   async get() {
-    const products = await ProductsSchema.find({});
-    return products;
+    try {
+      const products = await ProductsSchema.find({});
+      return products;
+    } catch (error) {
+      console.log(error);
+    }
   }
   async getAll() {
     try {
       const count = await ProductsSchema.countDocuments();
       return count;
     } catch (error) {
-      throw new Error("Error al obtener el número total de productos");
+      throw new Error('Error al obtener el número total de productos');
     }
   }
-  async getAllWithPag(limit, pagina, category, orderBy) {
-    const query = {};
-    if (category) {
-      query.category = category;
+  async getAllWithPag(filter, option) {
+    try {
+      const queryResult = await ProductsSchema.paginate(filter, option);
+      return queryResult;
+    } catch (error) {
+      console.log(error);
     }
-
-    const sortOptions = {};
-    if (orderBy === "asc") {
-      sortOptions.price = 1;
-    } else if (orderBy === "desc") {
-      sortOptions.price = -1;
-    }
-
-    const queryResult = await ProductsSchema.paginate(query, {
-      page: pagina || 1,
-      limit: limit || 5,
-      sort: sortOptions,
-    });
-
-    return queryResult;
   }
 
   async getById(_id) {
-    const productById = await ProdModel.findOne({ _id: _id });
-    return productById;
+    try {
+      const productById = await ProductsSchema.findOne({ _id: _id });
+      return productById;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  async getRendering() {
-    const products = await ProductsSchema.find(
-      {},
-      {
-        _id: 1,
-        title: 1,
-        description: 1,
-        price: 1,
-        thumbnail: 1,
-        code: 1,
-        stock: 1,
-      }
-    ).lean();
+  async getRendering({ options }) {
+    const products = await ProductsSchema.find({}, options).lean();
     return products;
   }
 
-  async create({ title, description, price, thumbnail, code, stock }) {
-    const ProductCreated = await ProductsSchema.create({
-      title,
-      description,
-      price,
-      thumbnail,
-      code,
-      stock,
-    });
+  async create(options) {
+    const ProductCreated = await ProductsSchema.create({ options });
     return ProductCreated;
   }
 
-  async update({ _id, title, description, price, thumbnail, code, stock }) {
-    const productUpdated = await ProductsSchema.updateOne(
-      { _id: _id },
-      { title, description, price, thumbnail, code, stock }
-    );
+  async update({ _id, options }) {
+    const productUpdated = await ProductsSchema.updateOne({ _id: _id }, { options });
     return productUpdated;
   }
 

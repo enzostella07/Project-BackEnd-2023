@@ -111,6 +111,7 @@ class cartApiController{
   purchaseCart = async (req, res) => {
     try {
       const { cid } = req.params;
+      const cartList = req.body;
       const cart = await cartService.purchaseCarts(cid);
       res
         .status(200)

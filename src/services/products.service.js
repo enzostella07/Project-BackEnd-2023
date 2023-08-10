@@ -2,17 +2,19 @@ import { productsDAO } from "../DAO/daos/products/products.mongo.dao.js";
 
 class ProductService {
   async getAll() {
-    const products = await ProductsSchema.find({});
+    const products = await productsDAO.get({});
     return products;
   }
+
   async getAllCount() {
     try {
-      const count = await ProductsSchema.countDocuments();
+      const count = await productsDAO.getAll({});
       return count;
     } catch (error) {
       throw new Error("Error al obtener el número total de productos");
     }
   }
+  
   async getAllWithPagination(limit, pagina, category, orderBy) {
     const query = {};
     if (category) {
@@ -26,7 +28,7 @@ class ProductService {
       sortOptions.price = -1;
     }
 
-    const queryResult = await ProductsSchema.paginate(query, {
+    const queryResult = await productsDAO.getAllWithPag(query, {
       page: pagina || 1,
       limit: limit || 5,
       sort: sortOptions,
@@ -36,12 +38,16 @@ class ProductService {
   }
 
   async getProductById(_id) {
-    const productById = await ProdModel.findOne({ _id: _id });
-    return productById;
+    try {
+      const productById = await productsDAO.getById(_id);
+      return productById;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getAllRendering() {
-    const products = await ProductsSchema.find(
+    const products = await productsDAO.getRendering(
       {},
       {
         _id: 1,
@@ -52,12 +58,12 @@ class ProductService {
         code: 1,
         stock: 1,
       }
-    ).lean();
+    );
     return products;
   }
 
   async createOne({ title, description, price, thumbnail, code, stock }) {
-    const ProductCreated = await ProductsSchema.create({
+    const ProductCreated = await productsDAO.create({
       title,
       description,
       price,
@@ -69,7 +75,7 @@ class ProductService {
   }
 
   async updateOne({ _id, title, description, price, thumbnail, code, stock }) {
-    const productUpdated = await ProductsSchema.updateOne(
+    const productUpdated = await productsDAO.update(
       { _id: _id },
       { title, description, price, thumbnail, code, stock }
     );
@@ -77,7 +83,7 @@ class ProductService {
   }
 
   async deleteOne(id) {
-    const result = await ProductsSchema.deleteOne({ _id: id });
+    const result = await productsDAO.delete(id);
     return result;
   }
 }

@@ -2,7 +2,7 @@ import passport from "passport";
 import local from "passport-local";
 import { cartService } from "../services/carts.service.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
-import { UserModel } from "../DAO/schemas/users.schema.js";
+import { UserSchema } from "../DAO/schemas/users.schema.js";
 import { userService } from "../services/users.service.js";
 import GitHubStrategy from "passport-github2";
 import env from "../config/config.js";
@@ -34,7 +34,7 @@ export function iniPassport() {
           }
           profile.email = emailDetail.email;
 
-          let user = await UserModel.findOne({ email: profile.email });
+          let user = await UserSchema.findOne({ email: profile.email });
           if (!user) {
             const newUser = {
               email: profile.email,
@@ -44,7 +44,7 @@ export function iniPassport() {
               age: 18,
               password: "nopass",
             };
-            let userCreated = await UserModel.create(newUser);
+            let userCreated = await UserSchema.create(newUser);
             console.log("User Registration succesful");
             return done(null, userCreated);
           } else {
@@ -66,7 +66,7 @@ export function iniPassport() {
       { usernameField: "email" },
       async (username, password, done) => {
         try {
-          const user = await UserModel.findOne({ email: username });
+          const user = await UserSchema.findOne({ email: username });
           if (!user) {
             console.log("User Not Found with username (email) " + username);
             return done(null, false);
@@ -94,7 +94,7 @@ export function iniPassport() {
       async (req, username, password, done) => {
         try {
           const { first_name, last_name, age } = req.body;
-          let user = await UserModel.findOne({ email: username });
+          let user = await UserSchema.findOne({ email: username });
           if (user) {
             console.log("User already exists");
             return done(null, false);
@@ -129,7 +129,7 @@ export function iniPassport() {
   });
 
   passport.deserializeUser(async (id, done) => {
-    let user = await UserModel.findById(id);
+    let user = await UserSchema.findById(id);
     done(null, user);
   });
 }

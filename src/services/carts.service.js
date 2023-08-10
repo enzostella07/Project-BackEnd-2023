@@ -4,22 +4,30 @@ import { cartsDAO } from "../DAO/daos/carts/carts.mongo.dao.js";
 
 class CartService {
   async getCartsAll() {
-    const carts = await cartsDAO.find({});
-    return carts;
+    try {
+      const carts = await cartsDAO.getAll({});
+      return carts;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getCartsById(cartId) {
-    const cart = await cartsDAO.findById(cartId).populate("products.product");
-    if (!cart) {
-      throw new Error("Cart not found");
+    try {
+      const cart = await cartsDAO.getById(cartId);
+      if (!cart) {
+        throw new Error("Cart not found");
+      }
+      return cart;
+    } catch (error) {
+      console.log(error);
     }
-    return cart;
   }
 
   async addCarts(cartId, prodId) {
     try {
       if (cartId === undefined || prodId === undefined) {
-        const newCart = await cartsDAO.create({});
+        const newCart = await cartsDAO.addCart({});
         return { status: 200, result: { status: "success", payload: newCart } };
       } else {
         if (
@@ -36,8 +44,8 @@ class CartService {
         }
       }
 
-      const productFiltered = await ProductsSchema.findOne({ _id: prodId });
-      const cartFiltered = await cartsDAO.findOne({ _id: cartId });
+      const productFiltered = await productsDAO.getById(prodId);
+      const cartFiltered = await cartsDAO.getById2(cartId);
 
       if (!productFiltered || !cartFiltered) {
         return {
@@ -72,8 +80,8 @@ class CartService {
 
   async addProducts(cartId, productId) {
     try {
-      const cart = await cartsDAO.findById(cartId);
-      const product = await productsDAO.findById(productId);
+      const cart = await cartsDAO.findById2(cartId);
+      const product = await productsDAO.getById(productId);
       if (!cart) {
         throw new Error("Cart not found");
       }
@@ -90,7 +98,7 @@ class CartService {
 
   async removeProducts(cartId, productId) {
     try {
-      const cart = await cartsDAO.findById(cartId);
+      const cart = await cartsDAO.getById2(cartId);
       const productIndex = cart.products.findIndex(
         (p) => p.product.toString() === productId
       );
@@ -107,7 +115,7 @@ class CartService {
 
   async updateProductsQuantity(cartId, productId, quantity) {
     try {
-      const cart = await cartsDAO.findById(cartId);
+      const cart = await cartsDAO.getById2(cartId);
       const productIndex = cart.products.findIndex(
         (p) => p.product.toString() === productId
       );
@@ -124,7 +132,7 @@ class CartService {
 
   async clearCarts(cartId) {
     try {
-      const cart = await cartsDAO.findById(cartId);
+      const cart = await cartsDAO.getById2(cartId);
       cart.products = [];
       await cart.save();
     } catch (error) {
@@ -134,7 +142,7 @@ class CartService {
 
   async updateCarts(cartId, products) {
     try {
-      const cart = await cartsDAO.findByIdAndUpdate(
+      const cart = await cartsDAO.updateCart(
         cartId,
         { products },
         { new: true }

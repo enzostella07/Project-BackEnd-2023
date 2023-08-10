@@ -1,77 +1,36 @@
-import { UserModel } from "../DAO/schemas/users.schema.js";
-import { createHash } from "../utils/bcrypt.js";
-class UserService {
-  async findUser(email, password) {
-    const user = await UserModel.findOne(
-      { email: email, password: password },
-      {
-        _id: true,
-        email: true,
-        first_name: true,
-        password: true,
-        rol: true,
-      }
-    );
+import { UserSchema } from '../../schemas/users.schema.js';
+
+class UserDAO {
+  async find(filters, options) {
+    const user = await UserSchema.findOne({ filters, options });
     return user || false;
   }
 
-  async findUserByEmail(email) {
-    const user = await UserModel.findOne(
-      { email: email },
-      {
-        _id: true,
-        email: true,
-        firstName: true,
-        password: true,
-        rol: true,
-      }
-    );
+  async findByEmail(filters, options) {
+    const user = await UserSchema.findOne({ filters, options });
     return user || false;
   }
 
-  async getAll() {
-    const users = await UserModel.find(
-      {},
-      {
-        _id: true,
-        email: true,
-        first_name: true,
-        password: true,
-        rol: true,
-      }
-    );
+  async get(options) {
+    const users = await UserSchema.find({}, { options });
     return users;
   }
-  async create(user) {
-    user.password = createHash(user.password);
-    const existingUser = await this.findUserByEmail(user.email);
 
-    if (existingUser) {
-      return false;
-    }
-
-    const userCreated = await UserModel.create(user);
-
+  async create(options) {
+    const userCreated = await UserSchema.create(options);
     return userCreated;
   }
-  async updateOne({ _id, email, first_name, password, rol }) {
-    const userUptaded = await UserModel.updateOne(
-      {
-        _id: _id,
-      },
-      {
-        email,
-        first_name,
-        password,
-        rol,
-      }
+
+  async update({ filters, options }) {
+    const userUptaded = await UserSchema.updateOne(
+      { filters, options },
     );
     return userUptaded;
   }
 
-  async deleteOne(_id) {
-    const result = await UserModel.deleteOne({ _id: _id });
+  async delete(_id) {
+    const result = await UserSchema.deleteOne({ _id: _id });
     return result;
   }
 }
-export const userService = new UserService();
+export const userDAO = new UserDAO();
