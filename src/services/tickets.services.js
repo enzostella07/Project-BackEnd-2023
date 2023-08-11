@@ -97,13 +97,10 @@ class TicketsService {
 
       // console.log('FLAG: New order: ', newOrder);
 
-      const orderCreated = await ticketsDAO.add(newOrder);
-      if (!orderCreated) {
-        await cartService.clearCarts(cartId);
-        if (productsNotPurchased.length > 0) {
-          await cartService.updateCarts(userCartId, productsNotPurchased);
-          // console.log('FLAG Productos no comprados: ', productsNotPurchased);
-        }
+      await cartService.clearCarts(cartId);
+
+      if (productsNotPurchased.length > 0) {
+        await cartService.updateCarts(cartId, productsNotPurchased);
       }
 
       return {
@@ -137,7 +134,7 @@ class TicketsService {
           status: 404,
           result: {
             status: 'error',
-            error: `🛑 Ticket not found.`,
+            error: `Ticket not found.`,
           },
         };
       }
