@@ -1,24 +1,24 @@
 import express from "express";
-import cartsApiController from "../controller/carts-api.controller.js";
+import cartApiController from "../controller/carts-api.controller.js";
 export const cartsApiRouter = express.Router();
 
-cartsApiRouter.get("/", cartsApiController.getCartAll);
+cartsApiRouter.get("/", cartApiController.getCartAll);
 
-cartsApiRouter.get("/:cid", cartsApiController.getCartById);
+cartsApiRouter.get("/:cid", cartApiController.getCartById);
 
-cartsApiRouter.post("/", cartsApiController.addCart);
+cartsApiRouter.post("/", cartApiController.addCart);
 
-cartsApiRouter.post("/:cid/products/:pid", cartsApiController.addProduct);
+cartsApiRouter.post("/:cid/products/:pid", cartApiController.addProduct);
 
-cartsApiRouter.delete("/:cid/products/:pid", cartsApiController.removeProduct);
+cartsApiRouter.delete("/:cid/products/:pid", cartApiController.removeProduct);
 
-cartsApiRouter.put("/:cid/products/:pid", cartsApiController.updateProductQuantity);
+cartsApiRouter.put("/:cid/products/:pid", cartApiController.updateProductQuantity);
 
-cartsApiRouter.delete("/:cid", cartsApiController.clearCart);
+cartsApiRouter.delete("/:cid", cartApiController.clearCart);
 
-cartsApiRouter.put("/:cid", cartsApiController.updateCart );
+cartsApiRouter.put("/:cid", cartApiController.updateCart );
 
-cartsApiRouter.put('/:cid/purchase', cartsApiController.purchaseCart);
+cartsApiRouter.put('/:cid/purchase', cartApiController.purchaseCart);
 
 
 
