@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { cartService } from "./carts.service.js";
 import { productsDAO } from "../DAO/daos/products/products.mongo.dao.js";
 import { cartsDAO } from "../DAO/daos/carts/carts.mongo.dao.js";
-import { ticketsDAO } from "../DAO/daos/products/products.mongo.dao.js";
+import { ticketsDAO } from "../DAO/daos/tickets/tickets.mongo.dao.js";
 
 class TicketsService {
   async purchaseCart(cartId, cartList, userMail, userCartId) {
@@ -95,12 +95,13 @@ class TicketsService {
         products: productFormat,
       };
 
+      const orderCreated = await ticketsDAO.add(newOrder);
       // console.log('FLAG: New order: ', newOrder);
 
       await cartService.clearCarts(cartId);
 
       if (productsNotPurchased.length > 0) {
-        await cartService.updateCarts(cartId, productsNotPurchased);
+        await cartService.updateCarts(userCartId, productsNotPurchased);
       }
 
       return {

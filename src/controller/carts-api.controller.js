@@ -1,4 +1,6 @@
 import { cartService } from "../services/carts.service.js";
+import { userDTO } from "../DAO/DTO/user.dto.js";
+import { ticketsService } from "../services/tickets.services.js";
 
 class cartApiController{
   getCartAll = async (req, res) => {
@@ -110,9 +112,10 @@ class cartApiController{
 
   purchaseCart = async (req, res) => {
     try {
-      const { cid } = req.params;
+      const id = req.params.cid;
       const cartList = req.body;
-      const cart = await cartService.purchaseCarts(cid);
+      const infoUser = new userDTO(req.session);
+      const cart = await ticketsService.purchaseCart(id, cartList, infoUser.email, infoUser.cartID);
       res
         .status(200)
         .json({ status: "success", message: "Cart purchased successfully", cart });

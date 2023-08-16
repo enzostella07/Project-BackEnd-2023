@@ -38,7 +38,7 @@ class CartService {
             status: 400,
             result: {
               status: "error",
-              error: `🛑 Invalid product or card ID.`,
+              error: `Invalid product or card ID.`,
             },
           };
         }
@@ -52,7 +52,7 @@ class CartService {
           status: 400,
           result: {
             status: "error",
-            error: `🛑 Product or Cart not found.`,
+            error: `Product or Cart not found.`,
           },
         };
       }

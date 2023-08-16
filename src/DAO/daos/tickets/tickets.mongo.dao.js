@@ -1,7 +1,6 @@
 import { TicketsSchema } from '../../schemas/tickets.schema.js';
 
 class TicketsDAO {
-  //No se usa
   async getAll() {
     try {
       const tickets = await TicketsSchema.find({});
