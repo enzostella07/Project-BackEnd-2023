@@ -15,10 +15,12 @@ import { productsRouter } from './routes/products.router.js';
 import { sessionRouter } from './routes/session.router.js';
 import { testChatRouter } from './routes/test-chat.router.js';
 import { usersApiRouter } from './routes/users-api.router.js';
+import { mockRouter } from './routes/mock.router.js';
 import { usersRouter } from './routes/users.router.js';
 import { connectMongo } from './utils/connect-db.js';
 import { connectSocketServer } from './utils/connect-socket.js';
 import { iniPassport } from './utils/passport.js';
+import  errorHandler  from './middlewares/error.js';
 
 // CONFIG BASICAS
 const app = express();
@@ -66,6 +68,7 @@ app.use('/api/products', productsApiRouter);
 app.use('/api/carts', cartsApiRouter);
 app.use('/api/users', usersApiRouter);
 app.use('/api/sessions', sessionRouter);
+app.use('/api/mockingProducts', mockRouter);
 
 // PLANTILLAS
 app.use('/', home);
@@ -83,3 +86,5 @@ app.get('*', (req, res) => {
     data: {},
   });
 });
+
+app.use(errorHandler);
