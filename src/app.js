@@ -16,6 +16,7 @@ import { sessionRouter } from './routes/session.router.js';
 import { testChatRouter } from './routes/test-chat.router.js';
 import { usersApiRouter } from './routes/users-api.router.js';
 import { mockRouter } from './routes/mock.router.js';
+import { addLogger } from './utils/logger.js';
 import { usersRouter } from './routes/users.router.js';
 import { connectMongo } from './utils/connect-db.js';
 import { connectSocketServer } from './utils/connect-socket.js';
@@ -49,6 +50,7 @@ app.use(
 );
 
 // MIDDLEWARES
+app.use(addLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));

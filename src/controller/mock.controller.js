@@ -3,7 +3,7 @@ import { genereteUserErrorInfo } from '../services/errors/info.js';
 import { mockProducts } from '../services/mock.service.js';
 
 class MockController {
-  getMockgingProducts = (req, res) => {
+  getMockingProducts = (req, res) => {
     const response = mockProducts.getAllProducts();
     res.status(response.status).json(response.result);
   };
