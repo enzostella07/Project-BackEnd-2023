@@ -111,7 +111,7 @@ export function iniPassport() {
             rol: "user",
             cart: carroId,
           };
-          let userCreated = await userService.create(newUser);
+          let userCreated = await userService.createOne(newUser);
           console.log("user create"+ userCreated);
           console.log("User Registration succesful");
           return done(null, userCreated);
