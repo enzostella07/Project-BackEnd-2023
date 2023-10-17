@@ -114,8 +114,8 @@ class cartApiController{
     try {
       const id = req.params.cid;
       const cartList = req.body;
-      const infoUser = new userDTO(req.session);
-      const cart = await ticketsService.purchaseCart(id, cartList, infoUser.email, infoUser.cartID);
+      const infoUser = new userDTO(req.session.user);
+      const cart = await ticketsService.purchaseCart(id, cartList, infoUser.email, infoUser.cart);
       res
         .status(200)
         .json({ status: "success", message: "Cart purchased successfully", cart });

@@ -93,6 +93,7 @@ class TicketsService {
         amount: +totalAmount,
         purchaser: userMail,
         products: productFormat,
+        cartId: cartId,
       };
 
       const orderCreated = await ticketsDAO.add(newOrder);

@@ -25,7 +25,7 @@ class userApiController{
         );
         return res.status(400).render("error", { error: "please complete email, firstName, password and rol." });
       }
-      const userCreated = await userService.create({
+      const userCreated = await userService.createOne({
         email,
         first_name,
         password,
