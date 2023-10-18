@@ -11,7 +11,7 @@ export default (error, req, res, next) => {
         res.status(400).send({ status: 'error', error: error.name, cause: error.cause });
         break;
     default:
-      res.status(500).send({ error: 'Error interno' });
+      res.status(500).send({ error });
       break;
   }
 };

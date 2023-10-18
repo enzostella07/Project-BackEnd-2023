@@ -30,7 +30,9 @@ const app = express();
 const PORT = env.PORT;
 
 // HTTP SERVER
-const httpServer = app.listen(PORT, () => {});
+const httpServer = app.listen(PORT, () => {
+  console.log(`Levantando en puerto http://localhost:${PORT}`);
+});
 
 //CONEXION A DB
 connectMongo();
