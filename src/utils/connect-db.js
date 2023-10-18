@@ -7,7 +7,6 @@ export async function connectMongo() {
     await connect(url);
     console.log("Conectado a la base de datos");
   } catch (e) {
-    console.log("cualquier cosa");
     console.log(e);
     throw "Falló la conexion";
   }

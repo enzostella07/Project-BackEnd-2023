@@ -31,7 +31,6 @@ class sessionController {
       rol: req.user.rol,
       cart: req.user.cart,
     };
-    console.log(req.session.user);
     return res.redirect('/products');
   };
 

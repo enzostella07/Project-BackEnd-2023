@@ -2,7 +2,6 @@ const carrito = document.getElementsByClassName('cartId');
 
 const purchaseCart = (cartId) => {
   //obteniendo datos de cartId
-  // console.log(cartId);
   fetch(`/api/carts/${cartId}`, {
     method: 'GET',
     headers: {
@@ -11,7 +10,6 @@ const purchaseCart = (cartId) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       const products = data.payload.products;
       const formatProduct = products.map((product) => {
         return {

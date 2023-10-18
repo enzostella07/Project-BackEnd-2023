@@ -98,7 +98,6 @@ class cartApiController{
   updateCart = async (req, res) => {
     try {
       const { cid } = req.params;
-      console.log(req.params);
       const { products } = req.body;
       // const cart = await cartService.updateCarts(cid, products);
       res

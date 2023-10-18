@@ -27,12 +27,10 @@ import { iniPassport } from './utils/passport.js';
 
 // CONFIG BASICAS
 const app = express();
-const PORT = env.PORT || 8080;
+const PORT = env.PORT;
 
 // HTTP SERVER
-const httpServer = app.listen(PORT, () => {
-  console.log(`Levantando en puerto http://localhost:${PORT}`);
-});
+const httpServer = app.listen(PORT, () => {});
 
 //CONEXION A DB
 connectMongo();
