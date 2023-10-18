@@ -44,7 +44,7 @@ class TicketsService {
           status: 400,
           result: {
             status: 'error',
-            error: `🛑 Cart not found.`,
+            error: `Cart not found.`,
           },
         };
       }
@@ -125,7 +125,7 @@ class TicketsService {
           status: 400,
           result: {
             status: 'error',
-            error: `🛑 Invalid ticket ID.`,
+            error: `Invalid ticket ID.`,
           },
         };
       }
