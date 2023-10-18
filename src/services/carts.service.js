@@ -80,7 +80,7 @@ class CartService {
 
   async addProducts(cartId, productId) {
     try {
-      const cart = await cartsDAO.findById2(cartId);
+      const cart = await cartsDAO.getById2(cartId);
       const product = await productsDAO.getById(productId);
       if (!cart) {
         throw new Error("Cart not found");
