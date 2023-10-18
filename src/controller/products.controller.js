@@ -14,7 +14,7 @@ class productsController{
         data;
       const plainProducts = data.docs.map((doc) => doc.toObject());
   
-      const firstname = req.session.user.firstname;
+      const firstname = req.session.user.first_name;
       const lastname = req.session.user.lastname;
       const rol = req.session.user.rol;
       const cart = req.session.user.cart;
