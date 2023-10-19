@@ -22,7 +22,6 @@ import { usersApiRouter } from './routes/users-api.router.js';
 import { usersRouter } from './routes/users.router.js';
 import { connectMongo } from './utils/connect-db.js';
 import { connectSocketServer } from './utils/connect-socket.js';
-import { addLogger } from './utils/logger.js';
 import { iniPassport } from './utils/passport.js';
 
 // CONFIG BASICAS
@@ -52,7 +51,6 @@ app.use(
 );
 
 // MIDDLEWARES
-app.use(addLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -106,4 +104,4 @@ app.get('*', (req, res) => {
   });
 });
 
-app.use(errorHandler);
+// app.use(errorHandler);
