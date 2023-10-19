@@ -30,8 +30,6 @@ class mailController{
           },
         ],
       });
-    
-      console.log(result);
       res.send('Email sent');
     }
 

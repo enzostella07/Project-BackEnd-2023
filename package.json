@@ -5,11 +5,11 @@
   "main": "app.js",
   "type": "module",
   "engines": {
-    "node": "16.x"
+    "node": "18.x"
   },
   "scripts": {
-    "dev": "nodemon src/app.js --mode DEVELOPMENT",
-    "start": "nodemon src/app.js --mode PRODUCTION"
+    "dev": "nodemon ./src/app.js --mode DEVELOPMENT",
+    "start": "node ./src/app.js --mode PRODUCTION"
   },
   "keywords": [],
   "author": "",

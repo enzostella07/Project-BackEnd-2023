@@ -15,7 +15,7 @@ export function iniPassport() {
       {
         clientID: env.CLIENT_ID,
         clientSecret: env.CLIENT_SECRET,
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+        callbackURL: "/api/sessions/githubcallback",
       },
       async (accesToken, _, profile, done) => {
         try {

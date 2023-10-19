@@ -27,7 +27,7 @@ import { iniPassport } from './utils/passport.js';
 
 // CONFIG BASICAS
 const app = express();
-const PORT = env.PORT || 8080;
+const PORT = env.PORT;
 
 // HTTP SERVER
 const httpServer = app.listen(PORT, () => {
@@ -68,18 +68,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Documentacion de Swagger
-const swaggerOptions = {
-  definition: {
-    openapi: '3.0.1',
-    info: {
-      title: 'documentacion remeras',
-      description: 'este proyecto',
-    },
-  },
-  apis: [`${__dirname}/docs/**/*.yaml`],
-};
-const specs = swaggerJSDoc(swaggerOptions);
-app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+// const swaggerOptions = {
+//   definition: {
+//     openapi: '3.0.1',
+//     info: {
+//       title: 'documentacion remeras',
+//       description: 'este proyecto',
+//     },
+//   },
+//   apis: [`${__dirname}/docs/**/*.yaml`],
+// };
+// const specs = swaggerJSDoc(swaggerOptions);
+// app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 //FIN SWAGGER
 
 // ENDPOINTS

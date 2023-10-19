@@ -2,7 +2,7 @@
   {{#if firstname }}
     <div class="flex-row text-end mt-3 ms-3 w-100">
       <div class="d-flex justify-content-end align-items-center">
-        <h4>Hola, {{firstname}} {{lastname}} {{cart}} . Tu rol es {{rol}}</h4>
+        <h4>Hola {{firstname}}!! tu id de carro es:{{cart}} Y tu rol es: {{rol}}</h4>
         <a
           href="/api/sessions/logout"
           class="btn btn-danger btn-sm btnLogin ms-2 me-5 mb-1"
@@ -28,7 +28,7 @@
 
   <div class="floatCartButton">
     <button id="{{cart}}" class="fixed-bottom-right btn btn-primary btn-lg cartInfo">
-      <a href="http://localhost:8080/carts/{{cart}}"><i
+      <a href="/carts/{{cart}}"><i
           class="bi bi-cart text-white"
           style="text-decoration: none;"
         ></i></a>

@@ -1,8 +1,7 @@
 const cartInfoElement = document.querySelector('.cartInfo');
 const putIntoCart = (id) => {
   const cartIdValue = cartInfoElement?.getAttribute("id");
-  console.log(`http://localhost:8080/api/carts/${cartIdValue}/products/${id}`);
-  fetch(`http://localhost:8080/api/carts/${cartIdValue}/products/${id}`, {
+  fetch(`/api/carts/${cartIdValue}/products/${id}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

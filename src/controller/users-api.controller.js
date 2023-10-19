@@ -70,7 +70,6 @@ class userApiController{
           password,
           rol,
         });
-        console.log("user"+userUptaded);
         if (userUptaded.matchedCount > 0) {
           return res.status(201).json({
             status: "success",

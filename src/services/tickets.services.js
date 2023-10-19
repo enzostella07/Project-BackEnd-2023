@@ -44,7 +44,7 @@ class TicketsService {
           status: 400,
           result: {
             status: 'error',
-            error: `🛑 Cart not found.`,
+            error: `Cart not found.`,
           },
         };
       }
@@ -52,7 +52,6 @@ class TicketsService {
       const productsNotPurchased = [];
       const productToPurchase = [];
 
-      // console.log('Lista de compras:', cartList);
 
       const asyncOperations = cartList.map(async (CartProduct) => {
         const checkStock = await productsDAO.getById(CartProduct.id);
@@ -73,14 +72,10 @@ class TicketsService {
 
       await Promise.all(asyncOperations); 
 
-      // console.log('FLAG: Products not purchased: ', productsNotPurchased);
-
       const totalAmount = productToPurchase.reduce((acc, p) => {
         acc += p.product.price * p.quantity;
         return acc;
       }, 0);
-
-      // console.log('FLAG: Total amount: ', totalAmount);
 
       const productFormat = productToPurchase.map((p) => ({
         id: p.product._id.toString(),
@@ -97,7 +92,6 @@ class TicketsService {
       };
 
       const orderCreated = await ticketsDAO.add(newOrder);
-      // console.log('FLAG: New order: ', newOrder);
 
       await cartService.clearCarts(cartId);
 
@@ -125,7 +119,7 @@ class TicketsService {
           status: 400,
           result: {
             status: 'error',
-            error: `🛑 Invalid ticket ID.`,
+            error: `Invalid ticket ID.`,
           },
         };
       }
