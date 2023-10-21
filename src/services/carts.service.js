@@ -88,7 +88,7 @@ class CartService {
       if (!product) {
         throw new Error("Product not found");
       }
-      cart.products.push({ product: product._id, quantity: 1 });
+      cart.products.push({ product: product._id, quantity: 1, _id: product._id });
       await cart.save();
       return cart;
     } catch (error) {
