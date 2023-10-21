@@ -55,42 +55,37 @@ class TicketsService {
 
       const asyncOperations = cartList.map(async (CartProduct) => {
         const checkStock = await productsDAO.getById(CartProduct.id);
-
         if (!checkStock) {
           productsNotPurchased.push(CartProduct);
         } else if (checkStock.stock >= CartProduct.quantity) {
           checkStock.stock -= CartProduct.quantity;
-          await checkStock.save();
+          // await checkStock.save();
           productToPurchase.push({
-            product: checkStock,
+            product: checkStock._id,
             quantity: CartProduct.quantity,
+            price: checkStock.price,
           });
         } else {
           productsNotPurchased.push(CartProduct);
         }
       });
-
+      
       await Promise.all(asyncOperations); 
 
-      const totalAmount = productToPurchase.reduce((acc, p) => {
-        acc += p.product.price * p.quantity;
-        return acc;
-      }, 0);
-
+      const totalAmount = productToPurchase.reduce((acc, item) => acc + (item.quantity * item.price), 0);
       const productFormat = productToPurchase.map((p) => ({
-        id: p.product._id.toString(),
+        id: p.product.toString(),
         quantity: p.quantity,
       }));
 
       const newOrder = {
         code: Math.floor(Math.random() * 1000000),
         purchase_datetime: new Date(),
-        amount: +totalAmount,
+        amount: totalAmount,
         purchaser: userMail,
         products: productFormat,
         cartId: cartId,
       };
-
       const orderCreated = await ticketsDAO.add(newOrder);
 
       await cartService.clearCarts(cartId);
