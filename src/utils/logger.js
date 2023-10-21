@@ -77,10 +77,3 @@ switch (env.NODE_ENV) {
   default:
     break;
 }
-
-export const addLogger = (req, res, next) => {
-  req.logger = logger;
-  const ipClient = ip.address();
-  req.logger.http(`${req.method} on ${req.url} from [${ipClient}]`);
-  next();
-};
